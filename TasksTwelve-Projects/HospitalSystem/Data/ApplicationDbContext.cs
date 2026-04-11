@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Numerics;
-
-namespace HospitalSystem.Data
+﻿namespace HospitalSystem.Data
 {
     public class ApplicationDbContext : DbContext
     {

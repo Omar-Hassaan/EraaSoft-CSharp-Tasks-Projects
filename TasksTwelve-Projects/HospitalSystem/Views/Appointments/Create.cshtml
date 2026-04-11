@@ -1,0 +1,128 @@
+﻿@model HospitalSystem.ViewModels.BookAppointmentVM
+
+@{
+    ViewData["Title"] = "Book Appointment";
+    var minDate = DateTime.Today.AddDays(1).ToString("yyyy-MM-dd");
+}
+
+<div class="page-header">
+    <div class="container">
+        <h1 class="page-title"><i class="fa-solid fa-calendar-plus me-3"></i>Book Appointment</h1>
+        <p class="page-subtitle">Fill in your details to confirm your appointment</p>
+    </div>
+</div>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+
+            <!-- Doctor Info Card -->
+            @if (Model.Doctor != null)
+            {
+                <div class="doctor-info-banner mb-4">
+                    <img src="@Model.Doctor.ImageUrl"
+                         alt="@Model.Doctor.Name"
+                         class="doc-banner-img"
+                         onerror="this.src='/images/default-doctor.png'" />
+                    <div class="doc-banner-text">
+                        <h4 class="mb-1">@Model.Doctor.Name</h4>
+                        <span class="badge bg-primary-soft">
+                            <i class="fa-solid fa-stethoscope me-1"></i>@Model.Doctor.Specialization
+                        </span>
+                    </div>
+                    <div class="doc-banner-availability ms-auto text-end">
+                        <small class="d-block text-muted"><i class="fa-regular fa-calendar me-1"></i>Sun – Thu</small>
+                        <small class="text-muted"><i class="fa-regular fa-clock me-1"></i>9:00 AM – 4:30 PM</small>
+                    </div>
+                </div>
+            }
+
+            <!-- Error Alert -->
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger alert-custom mb-4" role="alert">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i>@Model.ErrorMessage
+                </div>
+            }
+
+            <!-- Booking Form -->
+            <div class="form-card">
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="DoctorId" />
+
+                    <div class="mb-4">
+                        <label asp-for="PatientName" class="form-label form-label-custom">
+                            <i class="fa-solid fa-user me-2 text-primary"></i>Patient Name
+                        </label>
+                        <input asp-for="PatientName"
+                               class="form-control form-control-custom"
+                               placeholder="Enter full name..." />
+                        <span asp-validation-for="PatientName" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="AppointmentDate" class="form-label form-label-custom">
+                            <i class="fa-regular fa-calendar me-2 text-primary"></i>Appointment Date
+                            <small class="text-muted fw-normal ms-1">(Sunday – Thursday only)</small>
+                        </label>
+                        <input asp-for="AppointmentDate"
+                               type="date"
+                               class="form-control form-control-custom"
+                               min="@minDate"
+                               id="appointmentDate" />
+                        <span asp-validation-for="AppointmentDate" class="text-danger small mt-1 d-block"></span>
+                        <div id="weekendWarning" class="text-warning small mt-1 d-none">
+                            <i class="fa-solid fa-triangle-exclamation me-1"></i>
+                            Weekends (Friday & Saturday) are not available. Please choose another day.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="AppointmentTime" class="form-label form-label-custom">
+                            <i class="fa-regular fa-clock me-2 text-primary"></i>Time Slot
+                        </label>
+                        <select asp-for="AppointmentTime"
+                                asp-items="Model.AvailableTimeSlots"
+                                class="form-select form-control-custom">
+                            <option value="">— Select a time slot —</option>
+                        </select>
+                        <span asp-validation-for="AppointmentTime" class="text-danger small mt-1 d-block"></span>
+                    </div>
+
+                    <div class="d-flex gap-3 pt-2">
+                        <button type="submit" class="btn btn-primary-custom btn-lg flex-grow-1">
+                            <i class="fa-solid fa-check me-2"></i>Confirm Appointment
+                        </button>
+                        <a asp-controller="Doctors" asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
+                            <i class="fa-solid fa-arrow-left me-1"></i>Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Prevent selecting Friday (5) and Saturday (6)
+        const dateInput = document.getElementById('appointmentDate');
+        const warning = document.getElementById('weekendWarning');
+
+        dateInput.addEventListener('change', function() {
+            const d = new Date(this.value + 'T00:00:00');
+            const day = d.getDay(); // 0=Sun,6=Sat
+
+            if (day === 5 || day === 6) {
+                warning.classList.remove('d-none');
+                this.setCustomValidity('Please select a weekday (Sunday–Thursday).');
+            } else {
+                warning.classList.add('d-none');
+                this.setCustomValidity('');
+            }
+        });
+    </script>
+}
