@@ -1,0 +1,40 @@
+@model IEnumerable<MovieBookingApp.Models.Movie>
+
+<div class="text-center mb-4">
+    <h1>🔥 Latest Movies</h1>
+    <p class="text-muted">Discover movies, actors and cinemas</p>
+</div>
+
+<input type="text" id="searchBox" class="form-control mb-3" placeholder="Search movies..." />
+
+<div id="moviesContainer">
+    @Html.Partial("_MovieCards", Model)
+</div>
+
+<hr />
+
+<h3 class="mb-3">🎭 Actors</h3>
+<div class="row">
+    @foreach (var a in ViewBag.Actors as List<MovieBookingApp.Models.Actor>)
+    {
+        <div class="col-md-2 text-center mb-3">
+            <img src="@a.Img" class="rounded-circle shadow" width="90" height="90" style="object-fit:cover;" />
+            <p class="mt-2">@a.Name</p>
+        </div>
+    }
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $("#searchBox").on("keyup", function () {
+        var value = $(this).val();
+        $.ajax({
+            url: "/Movie/Search",
+            type: "GET",
+            data: { term: value },
+            success: function (result) {
+                $("#moviesContainer").html(result);
+            }
+        });
+    });
+</script>

@@ -1,0 +1,14 @@
+@model MovieBookingApp.Models.Movie
+
+<div class="container mt-4">
+    <h2>Delete Movie</h2>
+    <div class="alert alert-danger">Are you sure you want to delete <b>@Model.Name</b>?</div>
+    <p><b>Category:</b> @Model.Category?.Name</p>
+    <p><b>Cinema:</b> @Model.Cinema?.Name</p>
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

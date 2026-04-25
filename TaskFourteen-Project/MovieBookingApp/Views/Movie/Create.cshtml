@@ -1,0 +1,51 @@
+@model MovieBookingApp.Models.Movie
+
+<div class="container mt-4">
+    <h2>Add Movie</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Movie Name</label>
+                    <input asp-for="Name" class="form-control" placeholder="Name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label">Price (EGP)</label>
+                    <input asp-for="Price" class="form-control" placeholder="Price" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="MainImg" class="form-label">Image URL</label>
+                    <input asp-for="MainImg" class="form-control" placeholder="Image URL" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Des" class="form-label">Description</label>
+                    <textarea asp-for="Des" class="form-control" rows="3" placeholder="Description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CategoryId" class="form-label">Category</label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CinemaId" class="form-label">Cinema</label>
+                    <select asp-for="CinemaId" asp-items="ViewBag.Cinemas" class="form-control">
+                        <option value="">-- Select Cinema --</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="DateTime" class="form-label">Date & Time</label>
+                    <input asp-for="DateTime" type="datetime-local" class="form-control" />
+                </div>
+                <div class="form-check mb-3">
+                    <input asp-for="Status" class="form-check-input" />
+                    <label class="form-check-label">Available</label>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

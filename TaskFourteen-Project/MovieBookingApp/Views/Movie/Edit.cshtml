@@ -1,0 +1,48 @@
+@model MovieBookingApp.Models.Movie
+
+<div class="container mt-4">
+    <h2>Edit Movie</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Movie Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label">Price (EGP)</label>
+                    <input asp-for="Price" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="MainImg" class="form-label">Image URL</label>
+                    <input asp-for="MainImg" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Des" class="form-label">Description</label>
+                    <textarea asp-for="Des" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CategoryId" class="form-label">Category</label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control"></select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CinemaId" class="form-label">Cinema</label>
+                    <select asp-for="CinemaId" asp-items="ViewBag.Cinemas" class="form-control"></select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="DateTime" class="form-label">Date & Time</label>
+                    <input asp-for="DateTime" type="datetime-local" class="form-control" />
+                </div>
+                <div class="form-check mb-3">
+                    <input asp-for="Status" class="form-check-input" />
+                    <label class="form-check-label">Available</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
