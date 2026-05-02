@@ -1,0 +1,20 @@
+@{ ViewData["Title"] = "Find My Bookings"; }
+
+<div class="container py-5 d-flex justify-content-center">
+    <div class="card-dark p-5 rounded-3" style="max-width:450px;width:100%">
+        <div class="text-center mb-4">
+            <div style="font-size:3rem">🎟️</div>
+            <h4 class="fw-bold text-white mt-2">Find My Bookings</h4>
+            <p class="text-muted">Enter your email to view your booking history</p>
+        </div>
+        <form asp-action="MyBookings" method="get">
+            <div class="mb-3">
+                <label class="form-label text-muted small">EMAIL ADDRESS</label>
+                <input name="email" type="email" class="form-control form-control-lg" placeholder="your@email.com" required />
+            </div>
+            <button type="submit" class="btn btn-book w-100 py-3">
+                <i class="bi bi-search me-2"></i>Find Bookings
+            </button>
+        </form>
+    </div>
+</div>

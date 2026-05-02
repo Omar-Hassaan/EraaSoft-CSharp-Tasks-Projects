@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] ?? "MovieBook") - Book Your Movie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary: #e94560;
+            --dark: #0f0f1a;
+            --card-bg: #1a1a2e;
+        }
+        body { background: var(--dark); color: #e0e0e0; font-family: 'Segoe UI', sans-serif; }
+        .navbar { background: rgba(15,15,26,0.95) !important; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .navbar-brand { color: var(--primary) !important; font-weight: 800; font-size: 1.5rem; }
+        .nav-link { color: #aaa !important; transition: color 0.2s; }
+        .nav-link:hover { color: #fff !important; }
+        .movie-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .movie-card:hover { transform: translateY(-6px); box-shadow: 0 15px 35px rgba(233,69,96,0.2); }
+        .movie-card img { height: 220px; object-fit: cover; width: 100%; }
+        .btn-book { background: var(--primary); border: none; color: white; border-radius: 8px; padding: 8px 20px; font-weight: 600; transition: background 0.2s; }
+        .btn-book:hover { background: #c73652; color: white; }
+        .badge-cat { background: rgba(233,69,96,0.2); color: var(--primary); border: 1px solid rgba(233,69,96,0.3); border-radius: 20px; padding: 3px 10px; font-size: 0.75rem; }
+        footer { background: #0a0a15; border-top: 1px solid rgba(255,255,255,0.05); }
+        .form-control, .form-select {
+            background: #1a1a2e;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #e0e0e0;
+        }
+        .form-control:focus, .form-select:focus {
+            background: #1a1a2e;
+            border-color: var(--primary);
+            color: #e0e0e0;
+            box-shadow: 0 0 0 0.2rem rgba(233,69,96,0.25);
+        }
+        .form-control::placeholder { color: #666; }
+        .card-dark {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px;
+        }
+        .text-primary-red { color: var(--primary) !important; }
+        .hero { background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%); }
+        select option { background: #1a1a2e; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+        <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">
+            🎬 MovieBook
+        </a>
+        <button class="navbar-toggler border-0" data-bs-toggle="collapse" data-bs-target="#nav">
+            <i class="bi bi-list text-white fs-4"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Customer" asp-controller="Movie" asp-action="Index">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Customer" asp-controller="Booking" asp-action="MyBookings">My Bookings</a>
+                </li>
+            </ul>
+            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
+               class="btn btn-sm" style="background:rgba(233,69,96,0.15);color:#e94560;border:1px solid rgba(233,69,96,0.3);border-radius:8px">
+                <i class="bi bi-shield-fill me-1"></i>Admin Panel
+            </a>
+        </div>
+    </div>
+</nav>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show m-3 rounded-3" role="alert">
+        <i class="bi bi-check-circle me-2"></i>@TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show m-3 rounded-3" role="alert">
+        <i class="bi bi-exclamation-circle me-2"></i>@TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@RenderBody()
+
+<footer class="py-4 mt-5">
+    <div class="container text-center text-muted">
+        <p class="mb-0">© 2026 MovieBook — Book your cinema experience</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

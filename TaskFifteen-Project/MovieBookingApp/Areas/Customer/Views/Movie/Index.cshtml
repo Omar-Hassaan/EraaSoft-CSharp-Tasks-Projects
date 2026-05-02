@@ -1,0 +1,91 @@
+@model IEnumerable<MovieBookingApp.Models.Movie>
+@{ ViewData["Title"] = "Movies"; }
+
+<div class="container py-4">
+    <div class="card-dark p-4 mb-4">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-5">
+                <input name="search" value="@ViewBag.Search" class="form-control" placeholder="Search movies..." />
+            </div>
+            <div class="col-md-3">
+                <select name="categoryId" class="form-select">
+                    <option value="">All Categories</option>
+                    @if (ViewBag.Categories is List<MovieBookingApp.Models.Category> cats)
+                    {
+                        @foreach (var c in cats)
+                        {
+                            @if (ViewBag.SelectedCategory == c.Id)
+                            {
+                                <option value="@c.Id" selected>@c.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@c.Id">@c.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="cinemaId" class="form-select">
+                    <option value="">All Cinemas</option>
+                    @if (ViewBag.Cinemas is List<MovieBookingApp.Models.Cinema> cinemas)
+                    {
+                        @foreach (var c in cinemas)
+                        {
+                            @if (ViewBag.SelectedCinema?.ToString() == c.Id.ToString())
+                            {
+                                <option value="@c.Id" selected>@c.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@c.Id">@c.Name</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-book w-100"><i class="bi bi-search"></i></button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var m in Model)
+        {
+            <div class="col-md-3 col-sm-6">
+                <div class="movie-card h-100">
+                    <a asp-action="Details" asp-route-id="@m.Id" class="text-decoration-none">
+                        <img src="@(m.MainImageUrl ?? "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400")" alt="@m.Name" />
+                    </a>
+                    <div class="p-3">
+                        <span class="badge-cat">@m.Category?.Name</span>
+                        <h6 class="fw-bold mt-2 mb-1 text-white">@m.Name</h6>
+                        <p class="text-muted small mb-1"><i class="bi bi-building me-1"></i>@m.Cinema?.Name</p>
+                        <p class="text-muted small mb-2"><i class="bi bi-calendar me-1"></i>@m.ShowDateTime.ToString("dd MMM yyyy HH:mm")</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-primary-red">@m.Price.ToString("N0") EGP</span>
+                            @if (m.IsAvailable)
+                            {
+                                <a asp-area="Customer" asp-controller="Booking" asp-action="Create" asp-route-movieId="@m.Id" class="btn btn-book btn-sm">Book</a>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Unavailable</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (!Model.Any())
+        {
+            <div class="col-12 text-center py-5 text-muted">
+                <i class="bi bi-film fs-1 mb-3 d-block opacity-25"></i>
+                <p>No movies found matching your search.</p>
+                <a asp-action="Index" class="btn btn-outline-secondary btn-sm">Clear filters</a>
+            </div>
+        }
+    </div>
+</div>

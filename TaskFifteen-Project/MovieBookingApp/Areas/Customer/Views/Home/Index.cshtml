@@ -1,0 +1,102 @@
+@model IEnumerable<MovieBookingApp.Models.Movie>
+@{ ViewData["Title"] = "Home"; }
+
+<!-- HERO -->
+<section class="hero py-5">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="fw-black display-4 mb-3">
+                    Experience <span class="text-primary-red">Cinema</span><br />Like Never Before
+                </h1>
+                <p class="text-muted fs-5 mb-4">Book your seats for the latest blockbusters. Fast, easy, and secure.</p>
+                <a asp-area="Customer" asp-controller="Movie" asp-action="Index" class="btn btn-book px-5 py-3 fs-6">
+                    <i class="bi bi-ticket-perforated me-2"></i>Browse Movies
+                </a>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block text-end">
+                <div style="font-size:10rem;opacity:0.08">🎬</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FILTERS -->
+<div class="container mt-4">
+    <div class="card-dark p-4 mb-5">
+        <form asp-area="Customer" asp-controller="Movie" asp-action="Index" method="get" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label text-muted small">SEARCH</label>
+                <input name="search" class="form-control" placeholder="Search movies..." />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label text-muted small">CATEGORY</label>
+                <select name="categoryId" class="form-select">
+                    <option value="">All Categories</option>
+                    @if (ViewBag.Categories is List<MovieBookingApp.Models.Category> cats)
+                    {
+                        @foreach (var c in cats) { <option value="@c.Id">@c.Name</option> }
+                    }
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label text-muted small">CINEMA</label>
+                <select name="cinemaId" class="form-select">
+                    <option value="">All Cinemas</option>
+                    @if (ViewBag.Cinemas is List<MovieBookingApp.Models.Cinema> cinemas)
+                    {
+                        @foreach (var c in cinemas) { <option value="@c.Id">@c.Name</option> }
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-book w-100"><i class="bi bi-search me-1"></i>Find</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- MOVIES -->
+    <h4 class="fw-bold mb-4">🔥 Now Showing</h4>
+    <div class="row g-4 mb-5">
+        @foreach (var m in Model)
+        {
+            <div class="col-md-3 col-sm-6">
+                <div class="movie-card h-100">
+                    <a asp-area="Customer" asp-controller="Movie" asp-action="Details" asp-route-id="@m.Id" class="text-decoration-none">
+                        <img src="@(m.MainImageUrl ?? "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400")"
+                             alt="@m.Name" />
+                    </a>
+                    <div class="p-3">
+                        <span class="badge-cat">@m.Category?.Name</span>
+                        <h6 class="fw-bold mt-2 mb-1 text-white">@m.Name</h6>
+                        <p class="text-muted small mb-2">
+                            <i class="bi bi-building me-1"></i>@m.Cinema?.Name
+                            <span class="ms-2"><i class="bi bi-calendar me-1"></i>@m.ShowDateTime.ToString("MMM dd")</span>
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-primary-red">@m.Price.ToString("N0") EGP</span>
+                            <a asp-area="Customer" asp-controller="Booking" asp-action="Create" asp-route-movieId="@m.Id"
+                               class="btn btn-book btn-sm">Book</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- ACTORS -->
+    @if (ViewBag.Actors is List<MovieBookingApp.Models.Actor> actors && actors.Any())
+    {
+        <h4 class="fw-bold mb-4">🎭 Featured Actors</h4>
+        <div class="row g-3 mb-5">
+            @foreach (var a in actors)
+            {
+                <div class="col-md-3 col-6 text-center">
+                    <img src="@(a.ImageUrl ?? "https://via.placeholder.com/80")"
+                         width="75" height="75" class="rounded-circle shadow mb-2" style="object-fit:cover;border:2px solid rgba(233,69,96,0.4)" />
+                    <p class="text-white small mb-0">@a.Name</p>
+                </div>
+            }
+        </div>
+    }
+</div>

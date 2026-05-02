@@ -1,0 +1,31 @@
+@model IEnumerable<MovieBookingApp.Models.Actor>
+@{ ViewData["Title"] = "Manage Actors"; }
+
+<div class="card">
+    <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
+        <h6 class="fw-bold mb-0"><i class="bi bi-person-badge me-2 text-success"></i>All Actors</h6>
+        <a asp-action="Create" class="btn btn-success btn-sm"><i class="bi bi-plus me-1"></i>Add Actor</a>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            @foreach (var a in Model)
+            {
+                <div class="col-md-3">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-3">
+                            <img src="@(a.ImageUrl ?? "https://via.placeholder.com/80")"
+                                 width="70" height="70" class="rounded-circle shadow mb-2" style="object-fit:cover" />
+                            <h6 class="fw-bold mb-1">@a.Name</h6>
+                            <p class="text-muted small mb-2">@(a.Bio?.Length > 60 ? a.Bio.Substring(0, 60) + "..." : a.Bio)</p>
+                            <div class="d-flex gap-1 justify-content-center">
+                                <a asp-action="Details" asp-route-id="@a.Id" class="btn btn-sm btn-outline-info btn-action"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@a.Id" class="btn btn-sm btn-outline-warning btn-action"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@a.Id" class="btn btn-sm btn-outline-danger btn-action"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
