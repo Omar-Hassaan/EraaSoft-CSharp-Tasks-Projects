@@ -1,0 +1,54 @@
+@model IEnumerable<MovieBookingApp.Models.Movie>
+@{ ViewData["Title"] = "Manage Movies"; }
+
+<div class="card">
+    <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
+        <h6 class="fw-bold mb-0"><i class="bi bi-camera-video me-2 text-danger"></i>All Movies</h6>
+        <a asp-action="Create" class="btn btn-danger btn-sm"><i class="bi bi-plus me-1"></i>Add Movie</a>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr class="text-muted small">
+                    <th>Movie</th>
+                    <th>Category</th>
+                    <th>Cinema</th>
+                    <th>Price</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                @if (!string.IsNullOrEmpty(m.MainImageUrl))
+                                {
+                                    <img src="@m.MainImageUrl" width="40" height="40" style="object-fit:cover;border-radius:6px" />
+                                }
+                                <span class="fw-semibold">@m.Name</span>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-light text-dark border">@m.Category?.Name</span></td>
+                        <td>@m.Cinema?.Name</td>
+                        <td class="fw-semibold">@m.Price.ToString("N0") EGP</td>
+                        <td class="text-muted small">@m.ShowDateTime.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <span class="badge @(m.IsAvailable ? "bg-success" : "bg-secondary")">
+                                @(m.IsAvailable ? "Available" : "Unavailable")
+                            </span>
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@m.Id" class="btn btn-sm btn-outline-info btn-action me-1"><i class="bi bi-eye"></i></a>
+                            <a asp-action="Edit" asp-route-id="@m.Id" class="btn btn-sm btn-outline-warning btn-action me-1"><i class="bi bi-pencil"></i></a>
+                            <a asp-action="Delete" asp-route-id="@m.Id" class="btn btn-sm btn-outline-danger btn-action"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+@model MovieBookingApp.Models.Booking
+@{ ViewData["Title"] = "Booking Details"; }
+
+<div class="card" style="max-width:600px;margin:auto">
+    <div class="card-header bg-white border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+        <h6 class="fw-bold mb-0">Booking #@Model.Id</h6>
+        @{
+            var cls = Model.Status switch {
+                MovieBookingApp.Models.BookingStatus.Confirmed => "bg-success",
+                MovieBookingApp.Models.BookingStatus.Cancelled => "bg-danger",
+                _ => "bg-warning text-dark"
+            };
+        }
+        <span class="badge @cls px-3 py-2">@Model.Status</span>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded-3">
+                    <h6 class="fw-bold text-muted small mb-2">CUSTOMER INFO</h6>
+                    <p class="mb-1 fw-semibold">@Model.CustomerName</p>
+                    <p class="mb-1 text-muted small">@Model.CustomerEmail</p>
+                    <p class="mb-0 text-muted small">@Model.CustomerPhone</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded-3">
+                    <h6 class="fw-bold text-muted small mb-2">BOOKING INFO</h6>
+                    <p class="mb-1"><strong>Movie:</strong> @Model.Movie?.Name</p>
+                    <p class="mb-1"><strong>Seats:</strong> @Model.NumberOfSeats</p>
+                    <p class="mb-0"><strong>Total:</strong> <span class="text-danger fw-bold">@Model.TotalPrice.ToString("N0") EGP</span></p>
+                </div>
+            </div>
+        </div>
+        <p class="text-muted small mt-3">Booked on: @Model.BookingDate.ToString("dddd, MMMM dd, yyyy HH:mm")</p>
+        <hr />
+        <h6 class="fw-bold">Update Status</h6>
+        <form asp-action="UpdateStatus" method="post" class="d-flex gap-2 align-items-center">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+            <select name="status" class="form-select form-select-sm" style="width:auto">
+                @foreach (MovieBookingApp.Models.BookingStatus s in Enum.GetValues(typeof(MovieBookingApp.Models.BookingStatus)))
+                {
+                    @if (Model?.Status == s)
+                    {
+                        <option value="@s" selected>@s</option>
+                    }
+                    else
+                    {
+                        <option value="@s">@s</option>
+                    }
+                }
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+        </form>
+        <a asp-action="Index" class="btn btn-outline-secondary mt-3">Back to Bookings</a>
+    </div>
+</div>
