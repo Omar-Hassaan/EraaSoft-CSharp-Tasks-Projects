@@ -16,6 +16,7 @@ namespace MovieBookingApp.Data
         public DbSet<Cinema> Cinemas { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<MovieActor> MovieActors { get; set; }
+        public DbSet<ApplicationUserOtp> ApplicationUserOtps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -50,6 +51,5 @@ namespace MovieBookingApp.Data
                 new Cinema { Id = 3, Name = "Giza Megaplex", Location = "Giza, Egypt", ImageUrl = "https://images.unsplash.com/photo-1560109947-543149eceb16?w=400" }
             );
         }
-        public DbSet<MovieBookingApp.ViewModels.ForgetPasswordVM> ForgetPasswordVM { get; set; } = default!;
     }
 }

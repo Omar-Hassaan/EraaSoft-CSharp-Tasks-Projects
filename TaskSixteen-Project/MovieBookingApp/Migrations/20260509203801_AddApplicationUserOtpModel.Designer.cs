@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieBookingApp.Data;
 
@@ -11,9 +12,11 @@ using MovieBookingApp.Data;
 namespace MovieBookingApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260509203801_AddApplicationUserOtpModel")]
+    partial class AddApplicationUserOtpModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,7 +181,7 @@ namespace MovieBookingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors", (string)null);
+                    b.ToTable("Actors");
                 });
 
             modelBuilder.Entity("MovieBookingApp.Models.ApplicationUser", b =>
@@ -279,7 +282,7 @@ namespace MovieBookingApp.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("ApplicationUserOtps", (string)null);
+                    b.ToTable("ApplicationUserOtps");
                 });
 
             modelBuilder.Entity("MovieBookingApp.Models.Booking", b =>
@@ -321,7 +324,7 @@ namespace MovieBookingApp.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("MovieBookingApp.Models.Category", b =>
@@ -339,7 +342,7 @@ namespace MovieBookingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -392,7 +395,7 @@ namespace MovieBookingApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cinemas", (string)null);
+                    b.ToTable("Cinemas");
 
                     b.HasData(
                         new
@@ -464,7 +467,7 @@ namespace MovieBookingApp.Migrations
 
                     b.HasIndex("CinemaId");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("MovieBookingApp.Models.MovieActor", b =>
@@ -479,7 +482,7 @@ namespace MovieBookingApp.Migrations
 
                     b.HasIndex("ActorId");
 
-                    b.ToTable("MovieActors", (string)null);
+                    b.ToTable("MovieActors");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

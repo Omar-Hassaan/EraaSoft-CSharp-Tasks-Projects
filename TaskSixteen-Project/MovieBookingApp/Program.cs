@@ -47,6 +47,7 @@ namespace MovieBookingApp
             // Services (Business Logic)
             builder.Services.AddScoped<IMovieService, MovieService>();
             builder.Services.AddScoped<IBookingService, BookingService>();
+            builder.Services.AddScoped<IRepository<ApplicationUserOtp>, Repository<ApplicationUserOtp>>();
             builder.Services.AddTransient<IEmailSender, EmailSender>();
 
             var app = builder.Build();
