@@ -1,0 +1,14 @@
+@model MovieBookingApp.Models.Category
+@{ ViewData["Title"] = "Delete Category"; }
+<div class="card border-danger" style="max-width:400px;margin:auto">
+    <div class="card-header bg-danger text-white"><h6 class="mb-0">Confirm Delete</h6></div>
+    <div class="card-body text-center p-4">
+        <h5>@Model.Name</h5>
+        <p class="text-danger">Delete this category permanently?</p>
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex gap-2 justify-content-center">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-danger px-4">Delete</button>
+            <a asp-action="Index" class="btn btn-outline-secondary px-4">Cancel</a>
+        </form>
+    </div>
+</div>

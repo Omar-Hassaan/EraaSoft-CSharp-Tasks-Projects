@@ -1,0 +1,13 @@
+@model MovieBookingApp.Models.Category
+@{ ViewData["Title"] = "Category Details"; }
+<div class="card" style="max-width:500px;margin:auto">
+    <div class="card-body p-4">
+        <h4 class="fw-bold">@Model.Name</h4>
+        <hr />
+        <h6>Movies in this category:</h6>
+        <ul class="list-group">
+            @foreach (var m in Model.Movies) { <li class="list-group-item">🎬 @m.Name</li> }
+        </ul>
+        <a asp-action="Index" class="btn btn-outline-secondary mt-3">Back</a>
+    </div>
+</div>

@@ -1,0 +1,29 @@
+@model IEnumerable<MovieBookingApp.Models.Cinema>
+@{ ViewData["Title"] = "Cinemas"; }
+<div class="card">
+    <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
+        <h6 class="fw-bold mb-0"><i class="bi bi-building me-2 text-warning"></i>All Cinemas</h6>
+        <a asp-action="Create" class="btn btn-warning btn-sm"><i class="bi bi-plus me-1"></i>Add Cinema</a>
+    </div>
+    <div class="card-body">
+        <div class="row g-3">
+            @foreach (var c in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm">
+                        <img src="@(c.ImageUrl ?? "https://via.placeholder.com/400x180?text=Cinema")" class="card-img-top" style="height:160px;object-fit:cover" />
+                        <div class="card-body p-3">
+                            <h6 class="fw-bold">@c.Name</h6>
+                            <p class="text-muted small mb-2"><i class="bi bi-geo-alt me-1"></i>@c.Location</p>
+                            <div class="d-flex gap-1">
+                                <a asp-action="Details" asp-route-id="@c.Id" class="btn btn-sm btn-outline-info btn-action"><i class="bi bi-eye"></i></a>
+                                <a asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-outline-warning btn-action"><i class="bi bi-pencil"></i></a>
+                                <a asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-outline-danger btn-action"><i class="bi bi-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
