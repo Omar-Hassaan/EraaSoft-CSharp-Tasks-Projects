@@ -1,0 +1,62 @@
+@model MovieBookingApp.Models.Movie
+@{ ViewData["Title"] = Model.Name; }
+
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <img src="@(Model.MainImageUrl ?? "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500")"
+                 class="img-fluid rounded-3 w-100 shadow" style="max-height:400px;object-fit:cover" />
+        </div>
+        <div class="col-md-8">
+            <span class="badge-cat mb-2 d-inline-block">@Model.Category?.Name</span>
+            <h2 class="fw-black text-white mb-2">@Model.Name</h2>
+            <p class="text-muted">@Model.Description</p>
+
+            <div class="d-flex flex-wrap gap-3 my-3">
+                <div class="card-dark px-3 py-2 rounded-3">
+                    <div class="text-muted small">Cinema</div>
+                    <div class="fw-semibold text-white">@Model.Cinema?.Name</div>
+                </div>
+                <div class="card-dark px-3 py-2 rounded-3">
+                    <div class="text-muted small">Show Date</div>
+                    <div class="fw-semibold text-white">@Model.ShowDateTime.ToString("dd MMM yyyy HH:mm")</div>
+                </div>
+                <div class="card-dark px-3 py-2 rounded-3">
+                    <div class="text-muted small">Ticket Price</div>
+                    <div class="fw-semibold text-primary-red fs-5">@Model.Price.ToString("N0") EGP</div>
+                </div>
+            </div>
+
+            @if (Model.IsAvailable)
+            {
+                <a asp-area="Customer" asp-controller="Booking" asp-action="Create" asp-route-movieId="@Model.Id"
+                   class="btn btn-book px-5 py-3 fs-6 mt-2">
+                    <i class="bi bi-ticket-perforated me-2"></i>Book Tickets
+                </a>
+            }
+            else
+            {
+                <span class="badge bg-secondary px-4 py-3 fs-6">Currently Unavailable</span>
+            }
+        </div>
+    </div>
+
+    @if (Model.MovieActors?.Any() == true)
+    {
+        <div class="mt-5">
+            <h5 class="fw-bold mb-3">🎭 Cast</h5>
+            <div class="d-flex flex-wrap gap-3">
+                @foreach (var ma in Model.MovieActors)
+                {
+                    <div class="text-center">
+                        <img src="@(ma.Actor?.ImageUrl ?? "https://via.placeholder.com/65")"
+                             width="65" height="65" class="rounded-circle shadow" style="object-fit:cover;border:2px solid rgba(233,69,96,0.4)" />
+                        <p class="text-muted small mt-1 mb-0">@ma.Actor?.Name</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    <a asp-action="Index" class="btn btn-outline-secondary mt-4"><i class="bi bi-arrow-left me-1"></i>Back to Movies</a>
+</div>
